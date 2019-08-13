@@ -1,0 +1,573 @@
+﻿<UserControl x:Class="Ved.Views.Menue1Uc"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Ved.Views"
+             xmlns:boundAppLibValidations="clr-namespace:AppLib.Validations;assembly=AppLib"
+             xmlns:boundSolos="clr-namespace:Ved.Views.Solos"      
+             xmlns:boundAppLibConverters="clr-namespace:AppLib.Converters;assembly=AppLib"  
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+            
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="1050">
+
+
+    <UserControl.Resources>
+
+
+    </UserControl.Resources>
+    <Grid >
+
+        <Canvas Margin="940,10,10,90">
+            <local:StandortFilterUc ></local:StandortFilterUc>
+
+
+        </Canvas>
+
+
+        <!--<Viewport3D Margin="919,10,0,120">
+            <Viewport3D.Camera>
+                <PerspectiveCamera 
+                  Position="0.5, 2, 1.5"
+                  LookDirection = "-1.0, -0.1, -3"
+                  UpDirection = "0, 2, 0"
+                  FieldOfView = "30">
+                    <PerspectiveCamera.Transform>
+                        <Transform3DGroup>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D
+                                      Axis="0 1 0" 
+                                      Angle="{Binding ElementName=hscroll, Path=Value}" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                            <RotateTransform3D>
+                                <RotateTransform3D.Rotation>
+                                    <AxisAngleRotation3D
+                                      Axis="1 0 0" 
+                                      Angle="{Binding ElementName=vscroll, Path=Value}" />
+                                </RotateTransform3D.Rotation>
+                            </RotateTransform3D>
+                        </Transform3DGroup>
+                    </PerspectiveCamera.Transform>
+                </PerspectiveCamera>
+            </Viewport3D.Camera>
+
+
+       
+            <Viewport2DVisual3D>
+       
+                <Viewport2DVisual3D.Transform>
+                    <Transform3DGroup>
+                        <TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+                        <ScaleTransform3D ScaleY="0.939" ScaleZ="0.617" ScaleX="1.584"/>
+                        <RotateTransform3D d:EulerAngles="-5.459,23.418,-5.72">
+                            <RotateTransform3D.Rotation>
+                                <AxisAngleRotation3D Axis="-0.172,0.968,-0.185" Angle="24.439"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                        <TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+                        <TranslateTransform3D OffsetZ="-1.624" OffsetX="0.019" OffsetY="1.886"/>
+                    </Transform3DGroup>
+                </Viewport2DVisual3D.Transform>
+                       <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="-1,1,-1 -1,-1,-1 1,-1,1 1,1,1" TextureCoordinates="0,0 0,1 1,1 1,0" TriangleIndices="0 1 2 0 2 3"/>
+                </Viewport2DVisual3D.Geometry>
+                <Viewport2DVisual3D.Material>
+                    <DiffuseMaterial Brush="White" Viewport2DVisual3D.IsVisualHostMaterial="True"/>
+                </Viewport2DVisual3D.Material>
+                <boundStandortFilterControlGuis:StandortFilterUc></boundStandortFilterControlGuis:StandortFilterUc>
+                <Grid Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" Background="Transparent">
+                    <boundStandortFilterControlGuis:StandortFilterUc></boundStandortFilterControlGuis:StandortFilterUc>
+                    <Button VerticalAlignment="Center" Content="Hello, 3D"/>
+                </Grid>
+            </Viewport2DVisual3D>
+             Lights 
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <DirectionalLight Color="#FFFFFFFF" Direction="0,0,-1"/>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+        </Viewport3D>-->
+
+
+
+
+
+        <Canvas Margin="10,10,710,135">
+
+
+            <Button x:Name="dsnFilterOrElse_Bu" 
+                                            Content="" RenderTransformOrigin="0.25,1.4" Canvas.Left="90" Canvas.Top="10" Width="25" Height="25"                                              
+                                            Command="{Binding searchTextFilterOrElseX_BuCmd}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Style="{DynamicResource RoundedButtonToTransparent}"
+                                            Tag="{Binding dsnFilterOrElse_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </Button>
+
+            <Button Name="DSN_Filter_Bu" Click="DSN_Filter_Bu_Click" Background="Transparent" 
+                                            Content="DSN Filter" Canvas.Left="10" Canvas.Top="10" Width="75" Height="25"
+                                            FontSize="12"/>
+            <TextBox Name="dsn_Search1_TBox" Text="{Binding dsn_Search1_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                         Canvas.Left="10" TextWrapping="Wrap"  Panel.ZIndex="1" MaxLines="1000" MaxLength="1000000"
+                                             Canvas.Top="40" Width="294"
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBox Name="dsn_Search2_TBox" Text="{Binding dsn_Search2_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="-1" 
+                                           Canvas.Left="10" TextWrapping="Wrap" 
+                                            Canvas.Top="68" Width="294" 
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Name="dsn_Searchbox1_clear_Bu" 
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="dsn_Searchbox1_Clear_Bu"
+                                        Background="Transparent" Canvas.Left="309" Canvas.Top="40" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125"/>
+            <Button Name="dsn_Searchbox2_clear_Bu" 
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="dsn_Searchbox2_clear_Bu"
+                                        Background="Transparent" Canvas.Left="309" Canvas.Top="68" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125" />
+        </Canvas>
+
+        <Canvas Margin="335,27,557,163">
+            <Button  x:Name="materialFilterOrElse_Bu" 
+                                            Content=""  Canvas.Left="143"                                              
+                                            Command="{Binding searchTextFilterOrElseX_BuCmd}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"    
+                                            Canvas.Top="40" Width="25" Height="25" Style="{DynamicResource RoundedButtonToTransparent}"
+                     Tag="{Binding materialFilterOrElse_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </Button>
+
+            <Button Name="Mat_FilterBu" Click="Mat_FilterBu_Click" Content="Mat Filter" Background="Transparent"
+                                           Canvas.Left="10" Canvas.Top="10" Width="75" Height="25" />
+            <TextBox Name="material_Search1_TBox" Text="{Binding material_Search1_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBox Name="material_Search2_TBox" Text="{Binding material_Search2_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Canvas.Left="172" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Name="material_Searchbox1_clear_Bu" 
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="material_Searchbox1_clear_Bu"
+                                        Background="Transparent" Canvas.Left="101" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125"/>
+            <Button Name="material_Searchbox2_clear_Bu"
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="material_Searchbox2_clear_Bu"
+                                        Background="Transparent" Canvas.Left="175" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125" />
+        </Canvas>
+
+
+        <!--<Canvas Margin="30,200,557,10">-->
+        <StackPanel  Margin="454,10,316,200">
+            <!--<StackPanel.Effect>
+                            <DropShadowEffect ShadowDepth="0" BlurRadius="0"  Opacity="1"/>
+                        </StackPanel.Effect>
+                d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type={x:Type vm:Menue1Vm}}"          
+                  ItemsSource="{Binding itemCollectionDsOrg}" 
+                                        SelectedItems="{Binding itemCollectionSelectedItemsDsOrg}"   -->
+            <local:MultiSelectComboBox x:Name="multiSelectComboBoxDsOrg" Panel.ZIndex="-1"                                                     
+                                        MinWidth="30" MaxWidth="270" Height="30" HorizontalAlignment="Left"
+                                   
+                                        />
+
+        </StackPanel>
+       
+        <Canvas  Margin="880,200,020,0" Visibility="Visible" Name="groupDecision_Control"  Background="Transparent" HorizontalAlignment="Left" >
+            <Canvas.Resources>
+                <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0,0" EndPoint="0,1"  Opacity="0.5" >
+                    <GradientStop Offset="0" Color="#E4E9F0"/>
+                    <GradientStop Offset="1" Color="#D5DDED"/>
+                </LinearGradientBrush>
+
+                <ControlTemplate x:Key="ExpanderControlTemplate1" TargetType="{x:Type Expander}">
+                    <Border BorderThickness="1" BorderBrush="Purple" CornerRadius="5" Padding="3"   >
+                        <DockPanel ClipToBounds="True">
+                            <ContentPresenter
+                                                Visibility="Collapsed"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"
+                                                DockPanel.Dock="Bottom"
+                                                x:Name="ExpandSite"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
+                            <ContentPresenter
+                                                Visibility="Visible"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"
+                                                Focusable="False"
+                                                DockPanel.Dock="Top"
+                                                x:Name="HeaderSite"
+                                                Content="{TemplateBinding Header}"/>
+
+
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="HeaderSite">
+                            <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite"/>
+                            <Setter Property="IsExpanded" Value="True"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="1.1" Duration="0:0:0.3"
+                                                         Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleX)"/>
+                                        <DoubleAnimation To="1.1" Duration="0:0:0.3"
+                                                         Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleY)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="1" Duration="0:0:0.1"
+                                                         Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleX)"/>
+                                        <DoubleAnimation To="1" Duration="0:0:0.1"
+                                                         Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleY)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="ExpandSite">
+                            <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite"/>
+                            <Setter Property="IsExpanded" Value="True"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False" SourceName="ExpandSite">
+                            <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite"/>
+                            <Setter Property="IsExpanded" Value="True"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+
+
+
+            </Canvas.Resources>
+            <Canvas.Style>
+                <Style TargetType="{x:Type Canvas}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter Property="Tag" Value="True"  />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Canvas.Style>
+
+            <Border  Name="groupDecision_Border" VerticalAlignment="Top" MaxHeight="300" 
+                                        Margin="0" 
+                                       HorizontalAlignment="Center"
+                                        BorderBrush="CornflowerBlue"
+                                        BorderThickness="2"
+                                        Padding="7">
+
+
+
+                <Border.Background>
+                    <SolidColorBrush Color="SkyBlue" Opacity="0" />
+                </Border.Background>
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="0"  Opacity="1"/>
+                </Border.Effect>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Name="groupDecision_Grid"  >
+ 
+                    <Expander ExpandDirection="Down"                
+                                          Template="{DynamicResource ExpanderControlTemplate1}"                                     
+                                          Name="groupDecision_DetailsExpander"  Header="Auswahl Gruppen">
+                        <Expander.Background>
+                            <SolidColorBrush Color="SkyBlue" Opacity="0" />
+                        </Expander.Background>
+                        <!--<Expander.Style>
+                                        <Style TargetType="{x:Type Expander}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="IsExpanded" Value="True"  />
+                                                    <Setter Property="Width" Value="400"  />
+                                                    <Setter Property="Height" Value="400"  />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Expander.Style>-->
+                        <Expander.Content>
+
+                            <Popup PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
+                                       Placement="Bottom" PopupAnimation="Fade" Margin="0" Name="popi"             
+                                           StaysOpen="True" AllowsTransparency="True" >
+ 
+                                <Popup.IsOpen>
+                                    <MultiBinding Converter="{StaticResource keyTagExpanderIsOpenMulti}"
+                                                                            >
+
+                                        <!--<Binding Path="IsMouseOver" NotifyOnTargetUpdated NotifyOnSourceUpdated RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}" NotifyOnSourceUpdated="True" Mode="OneWay"/>-->
+                                        <!--<Binding Path="IsMouseOver" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}" NotifyOnSourceUpdated="True" Mode="OneWay"/>-->
+                                        <Binding Path="IsMouseOver" ElementName="WpfMultiSelectPairViewDsOrgContent"  UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <Binding Path="IsMouseOver" ElementName="groupDecision_Border"  UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <!--<Binding Path="IsMouseOver" ElementName="groupPrimaryContactDgv"  NotifyOnSourceUpdated="True" Mode="OneWay"/>-->
+                                        <Binding Path="IsMouseOver" ElementName="groupDecision_Control"  UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <Binding Path="IsMouseOver" ElementName="groupDecision_Grid" UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <!--<Binding Path="IsMouseOver" ElementName="dadadada"  NotifyOnSourceUpdated="True" Mode="OneWay"/>-->
+                                        <Binding Path="IsMouseOver" ElementName="popi"   UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <Binding Path="IsMouseOver" ElementName="groupDecision_DetailsExpander"   UpdateSourceTrigger="PropertyChanged" Mode="OneWay"/>
+                                        <!--<Binding Path="IsMouseOver" ElementName="slslsl"  NotifyOnSourceUpdated="True" Mode="OneWay"/>-->
+                                    </MultiBinding>
+
+
+                                </Popup.IsOpen>
+
+
+                                <ItemsControl    >
+
+                                    <boundSolos:MultiSelectPairView       
+                                              x:Name="WpfMultiSelectPairViewDsOrgContent">
+
+                                    </boundSolos:MultiSelectPairView>
+                                </ItemsControl>
+
+                            </Popup>
+
+
+
+                        </Expander.Content>
+
+
+                    </Expander>
+
+                </Grid>
+            </Border>
+
+
+        </Canvas>
+
+
+
+
+        <Grid Margin="734,7,125,125" Canvas.ZIndex="3" >
+            <Border BorderBrush="Red" BorderThickness="2" Margin="0,0,0,0" >
+                <local:SortCanvasUc/>
+
+            </Border>
+
+        </Grid>
+
+        <Canvas Margin="10,120,729,42">
+            <Button  Name="stQuFilterOrElse_Bu"                                              
+                                            Command="{Binding searchTextFilterOrElseX_BuCmd}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"     
+                                                Content=""  Style="{DynamicResource RoundedButtonToTransparent}"
+                                                Canvas.Left="144" Canvas.Top="40" Width="25" Height="25"   
+                                         Tag="{Binding stQuFilterOrElse_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </Button>
+
+
+            <Button Name="ST_Qu_Filter_Bu" Click="ST_Qu_Filter_Bu_Click" Content="ST-Qu-Filter"  Background="Transparent"
+                                                        Canvas.Left="10" Canvas.Top="10" Width="75" Height="25">
+            </Button>
+            <TextBox Name="stQu_Search1_TBox" Text="{Binding stQu_Search1_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="40" Width="129"
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+                       
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBox Name="stQu_Search2_TBox" Text="{Binding stQu_Search2_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                           Canvas.Left="174" TextWrapping="Wrap" Canvas.Top="40" Width="129"
+                                          Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Name="stQu_Searchbox1_clear_Bu" 
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="stQu_Searchbox1_clear_Bu"
+                                        Background="Transparent" Canvas.Left="101" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125"/>
+            <Button Name="stQu_Searchbox2_clear_Bu" 
+                                         Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="stQu_Searchbox2_clear_Bu"
+                                        Background="Transparent" Canvas.Left="175" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125" />
+          
+        </Canvas>
+
+
+        <Canvas Margin="326,120,421,27">
+            
+            <Button  Name="singleQuFilterOrElse_Bu"                                              
+                                            Command="{Binding searchTextFilterOrElseX_BuCmd}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"      
+                                            Content=""  Canvas.Left="143"   
+                                            Canvas.Top="40" Width="25" Height="25" 
+                     Style="{DynamicResource RoundedButtonToTransparent}"
+                      Tag="{Binding singleQuFilterOrElse_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </Button>
+
+            <Button Name="SI_QU_FilterBu" Click="SI_QU_FilterBu_Click" Content="QU Filter"  Background="Transparent"
+                                           Canvas.Left="10" Canvas.Top="10" Width="75" Height="25" />
+            <TextBox Name="singleQu_Search1_TBox" Text="{Binding singleQu_Search1_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                   Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                         Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBox Name="singleQu_Search2_TBox" Text="{Binding singleQu_Search2_TBoxText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                Canvas.Left="172" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                            Style="{StaticResource strechTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Name="singleQu_Searchbox1_clear_Bu" 
+                                           Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="singleQu_Searchbox1_clear_Bu"
+                                        Background="Transparent" Canvas.Left="101" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125"/>
+            <Button Name="singleQu_Searchbox2_clear_Bu" 
+                                           Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="singleQu_Searchbox2_clear_Bu"
+                                        Background="Transparent" Canvas.Left="175" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125" />
+        </Canvas>
+        <Canvas Margin="634,120,240,70">
+
+            <Button Name="yearFilterOrElse_Bu"                                               
+                                            Command="{Binding yearFilterOrElseX_BuCmd}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"      
+                                            Canvas.Left="144" Canvas.Top="40"  Content=""
+                                            Style="{DynamicResource RoundedButtonToTransparent}"
+                                            Background="{Binding Path=yearFilterOrElse_isUsingFromTo, 
+                                            Converter={StaticResource keyBrushWithToBoolConvertReverse}}"      
+                                            Width="25" Height="25" />
+            
+            <Button Name="Year_QU_FilterBu" Click="Year_QU_FilterBu_Click" Content="Year"  Background="Transparent"
+                                            Canvas.Left="10" Canvas.Top="10" Width="75" Height="25" FontSize="12"/>
+           
+
+            <TextBox Name="year_Search1_TBox" boundAppLibValidations:ProtocolSettingsLayout.MVVMHasError="{Binding Path=HasError}"
+                                               Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                              Style="{StaticResource validationErrorTemplateBasedOnStrechTextBoxLikeToolTip}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+                <TextBox.Text>
+                   
+                    <Binding Path="year_Search1_TBoxText" Mode="TwoWay" ValidatesOnDataErrors="True"
+                                   UpdateSourceTrigger="LostFocus" >
+                        <Binding.ValidationRules>
+                            <boundAppLibConverters:YearRangeRule Min="1950" Max="2030" PartLength="4"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+
+            </TextBox>
+
+            <TextBox Name="year_Search2_TBox" boundAppLibValidations:ProtocolSettingsLayout.MVVMHasError="{Binding Path=HasError}"
+                                              Canvas.Left="174" TextWrapping="Wrap" Canvas.Top="40" Width="128"
+                                              Style="{StaticResource validationErrorTemplateBasedOnStrechTextBoxLikeToolTip}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F12" Command="{Binding gridDbSelect_BuCmd}"
+                                          CommandParameter="F12">
+
+                    </KeyBinding>
+                </TextBox.InputBindings>
+                <TextBox.Text>
+                  
+                    <Binding Path="year_Search2_TBoxText" Mode="TwoWay" ValidatesOnDataErrors="True"
+                                UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <boundAppLibConverters:YearRangeRule Min="1950" Max="2030" PartLength="4"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+
+
+            </TextBox>
+
+
+
+
+
+
+            <Button Name="year_QU_Searchbox1_clear_Bu" 
+                                          Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="year_QU_Searchbox1_clear_Bu"
+                                        Background="Transparent" Canvas.Left="101" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125"/>
+            <Button Name="year_QU_Searchbox2_clear_Bu" 
+                                          Command="{Binding searchbox_XX_clear_CheckedCmd}" 
+                                        CommandParameter="year_QU_Searchbox2_clear_Bu"
+                                        Background="Transparent" Canvas.Left="175" Canvas.Top="27" Width="12" Height="8" RenderTransformOrigin="-0.139,2.125" />
+        </Canvas>
+
+        <Canvas  Margin="696,214,255,27">
+            <StackPanel Orientation="Horizontal" Margin="10,0,10,0" Background="Transparent">
+
+                <Button Name="dsnInTBoxView_Bu"
+                                                Command="{Binding changeButtonBackGroundColorBasic_BuCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                        Style="{DynamicResource RoundedButtonToTransparent}"
+                       Tag="{Binding dsnInTBoxView_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                         
+                                            Canvas.Left="10" Canvas.Top="8" Width="20" Height="20" />
+
+                <Label Content="DSN" Canvas.Left="45" Canvas.Top="4" RenderTransformOrigin="0.529,0.5"/>
+
+                <Button Name="cellValueInTBoxView_Bu" 
+                                                    Command="{Binding changeButtonBackGroundColorBasic_BuCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                        Style="{DynamicResource RoundedButtonToTransparent}"
+                                                      Tag="{Binding cellValueInTBoxView_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"              
+                                            Canvas.Left="180" Canvas.Top="8" Width="20" Height="20"  />
+
+                <Label Content="CellValue" Canvas.Left="205" Canvas.Top="2"/>
+                <Button Name="dsnLineInTBoxView_Bu"  Visibility="Collapsed"
+                                            Canvas.Left="288" Canvas.Top="8" Width="20" Height="20"  
+                         Tag="{Binding dsnLineInTBoxView_BuBackgc, FallbackValue=0, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  />
+                <!--Background="{Binding dsnLineInTBoxView_BuBackgc}"-->
+                
+                <Label Content="DelLine" Canvas.Left="313" Canvas.Top="2" Visibility="Collapsed"/>
+            </StackPanel>
+        </Canvas>
+
+
+    </Grid>
+
+</UserControl>
