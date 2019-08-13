@@ -1,0 +1,832 @@
+﻿<Window x:Class="ContactAddressesSelector.Guis.ContactAddressesSelectWd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ContactAddressesSelector.ContactAddressesSelector.Guis"
+             xmlns:boundConstants="clr-namespace:ContactAddressesSelector.ContactAddressesSelector.Constants"
+             xmlns:boundConverters="clr-namespace:ContactAddressesSelector.ContactAddressesSelector.Converters"             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             ContentRendered = "ContactAddressesSelectWd_ContentRendered"  >
+
+ 
+    
+    <Window.DataContext>
+        <local:ContactAddressesSelectVm/>
+    </Window.DataContext>
+
+    <Window.Resources>
+
+        <boundConverters:ContentCalcluator x:Key="keyContentCalcluator" />
+        <boundConverters:CompleteConverter x:Key="completeConverter" />
+        <boundConverters:ImageGetConverter2 x:Key="picConverter2" />
+
+        <boundConverters:ConvertePrimaryUseToString x:Key="keyConvertePrimaryUseToString"></boundConverters:ConvertePrimaryUseToString>
+        <boundConverters:ConvertePrimaryUseSearchToString x:Key="keyConvertePrimaryUseSearchToString"></boundConverters:ConvertePrimaryUseSearchToString>
+
+
+        <ObjectDataProvider x:Key="keyePrimaryUse" MethodName="GetValues" 
+                            ObjectType="{x:Type  sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="boundConstants:ePrimaryUse"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="keyePrimaryUseSearch" MethodName="GetValues" 
+                            ObjectType="{x:Type  sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="boundConstants:ePrimaryUseSearch"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <Style  x:Key="keyComboItemRoyalBlue" TargetType="{x:Type ComboBoxItem}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsSelected}" Value="True">
+                    <Setter Property="Background" Value="RoyalBlue"/>
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                </DataTrigger>
+            </Style.Triggers>
+
+
+        </Style>
+
+
+
+        <Style x:Key="keyComboRoyalBlue" TargetType="{x:Type ComboBox}">
+            <!--<Setter Property="Background" Value="Transparent" />-->
+            <!--<Setter Property="BorderBrush" Value="#FF82E141" />-->
+            <Setter Property="Foreground" Value="RoyalBlue" />
+            <Setter Property="Background" Value="White" />
+            <!--Value="#FFD8DFF3"-->
+
+            <Setter Property="BorderThickness" Value="1" />
+
+        </Style>
+
+
+
+        <Style x:Key="AnimatedSwitch" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FAFAFB" />
+            <Setter Property="BorderBrush" Value="#EAEAEB" />
+            <Setter Property="Content" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Viewbox Stretch="Uniform">
+                            <Canvas Name="Layer_1" Width="20" Height="20" Canvas.Left="10" Canvas.Top="0">
+                                <Ellipse  Canvas.Left="0" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
+                                <Ellipse  Canvas.Left="15" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
+                                <Border Canvas.Left="10" Width="15" Height="20" Name="rect416927" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0.5,0,0.5"/>
+                                <Ellipse x:Name="ellipse"  Canvas.Left="0" Width="20" Height="20" Fill="White" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.3">
+                                    <Ellipse.RenderTransform>
+                                        <TranslateTransform X="0" Y="0" />
+                                    </Ellipse.RenderTransform>
+                                    <Ellipse.BitmapEffect>
+                                        <DropShadowBitmapEffect Softness="0.1" ShadowDepth="0.7" Direction="270" Color="#BBBBBB"/>
+                                    </Ellipse.BitmapEffect>
+                                </Ellipse>
+                            </Canvas>
+                        </Viewbox>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True" >
+                                <Setter Property="Content" Value="True"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#52D468" Duration="0:0:0.2" />
+                                            <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#41C955" Duration="0:0:0.2" />
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ellipse">
+                                                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="15" KeySpline="0, 1, 0.6, 1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FAFAFB" Duration="0:0:0.2" />
+                                            <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#EAEAEB" Duration="0:0:0.2" />
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ellipse">
+                                                <SplineDoubleKeyFrame KeyTime="0" Value="15"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" KeySpline="0, 0.5, 0.5, 1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="strechTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="MaxHeight" Value="25"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused"  Value="True">
+                    <Setter Property="BorderBrush" Value="Blue"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                    <!--<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>-->
+                    <Setter Property="Height" Value="Auto"/>
+                    <Setter Property="MinHeight" Value="25"/>
+                    <Setter Property="MaxHeight" Value="80"/>
+                    <Setter Property="Background" Value="Yellow"/>
+                    <Setter Property="Opacity" Value="100"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+
+                    <Setter Property="BorderBrush" Value="Blue"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                    <Setter Property="Height" Value="Auto"/>
+                    <Setter Property="MinHeight" Value="25"/>
+                    <Setter Property="MaxHeight" Value="80"/>
+                    <Setter Property="Background" Value="Yellow"/>
+                    <Setter Property="Opacity" Value="100"/>
+
+                </Trigger>
+
+
+
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MyFocusVisualStyte" >
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle x:Name="FocusStyle" StrokeDashArray="4 4" RadiusX="5" RadiusY="5" Fill="Transparent"
+                           Stroke="#81d2eb" StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource MyFocusVisualStyte}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <BulletDecorator>
+                            <BulletDecorator.Bullet>
+                                <Grid Height="{TemplateBinding Height}" Width="{Binding RelativeSource={RelativeSource Self}, 
+                                    Path=Height, UpdateSourceTrigger=PropertyChanged}"
+                              MinHeight="30" MinWidth="30" ShowGridLines="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="4*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="4*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border Name="MainBorder" SnapsToDevicePixels="True"
+                                    Grid.ColumnSpan="9" Grid.RowSpan="9"
+                                    CornerRadius="4"
+                                    BorderThickness="1"
+                                    Background="Transparent" />
+
+                                    <Border Name="InnerBorder" SnapsToDevicePixels="True"
+                                    Grid.Column="1" Grid.ColumnSpan="5"
+                                    Grid.Row="2" Grid.RowSpan="5"
+                                    BorderThickness="1"
+                                    BorderBrush="#808080" />
+
+                                    <Path Name="InnerPath"
+                                  Grid.Column="1" Grid.ColumnSpan="5"
+                                  Grid.Row="2" Grid.RowSpan="5"
+                                  Data="M31,5 L19.5,5 19.5,19.5 34.5,19.5 34.5,11.75"
+                                  Stretch="Fill" Stroke="#808080"/>
+
+                                    <Path Name="CheckMark"
+                                  Grid.Column="2" Grid.ColumnSpan="5"
+                                  Grid.Row="1" Grid.RowSpan="5"
+                                  Opacity="0"
+                                  Data="M9.07743946676476E-09,4.31805768640244L4.68740335877841,8.86361158398516C4.68740335877841,8.86361158398516,16.3281249985376,-2.42451336648723,16.3281249985376,-2.42451336648723L14.0622100581796,-4.77304938341948 4.68740335877846,4.31805791992662 2.22656251699567,1.93164208562579z"
+                                  Fill="#3babe3"
+                                  Stretch="Fill"
+                                  Stroke="#3babe3" />
+
+                                    <Path Name="InderminateMark"
+                                  Grid.Column="3"
+                                  Grid.Row="4"
+                                  Data="M0,4 L1,5 5,1 4,0"
+                                  Opacity="0"
+                                  Stretch="Fill"
+                                  StrokeThickness="0"
+                                  Fill="#808080" />
+                                </Grid>
+                            </BulletDecorator.Bullet>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" >
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.2" To="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="InderminateMark" Duration="0:0:0.2" To="1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter Margin="4,0,4,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        RecognizesAccessKey="True" />
+                        </BulletDecorator>
+
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="InnerBorder" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="MainBorder" Property="Background" Value="#81d2eb"  />
+
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="CheckMark" Property="Fill" Value="#cccccc" />
+                                <Setter TargetName="CheckMark" Property="Stroke" Value="#cccccc" />
+                                <Setter TargetName="InnerPath" Property="Stroke" Value="#cccccc" />
+                                <Setter TargetName="InderminateMark" Property="Fill" Value="#cccccc" />
+                                <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#cccccc" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+
+
+                        <!--Value="#81d2eb"-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+
+
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+
+
+        </Grid.Resources>
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"  />
+            <RowDefinition Height="5"  />
+            <RowDefinition Height="30*"  />
+            <!--<RowDefinition Height="5"  />
+            <RowDefinition Height="80*" />-->
+
+        </Grid.RowDefinitions>
+
+
+        <Rectangle  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" SnapsToDevicePixels="True"
+                                   Margin="2" Height="3" Fill="Blue"/>
+        <Rectangle  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="7" SnapsToDevicePixels="True"
+                                   Margin="2" Height="3" Fill="Blue"/>
+
+
+        <StackPanel Grid.Row="0"  Orientation="Horizontal" 
+							Height="35" Background="Azure">
+            <StackPanel.Resources>
+                <Color x:Key="WindowBackgroundColor">#FF2D2D30</Color>
+                <Color x:Key="HighlightColor">#FF3F3F41</Color>
+                <Color x:Key="BlueColor">#FF007ACC</Color>
+                <Color x:Key="ForegroundColor">#FF007ACC</Color>
+
+                <SolidColorBrush x:Key="WindowBackgroundColorBrush" Color="{StaticResource WindowBackgroundColor}"/>
+                <SolidColorBrush x:Key="HighlightColorBrush" Color="{StaticResource HighlightColor}"/>
+                <SolidColorBrush x:Key="BlueColorBrush" Color="{StaticResource BlueColor}"/>
+                <SolidColorBrush x:Key="ForegroundColorBrush" Color="{StaticResource ForegroundColor}"/>
+
+                <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundColorBrush}" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="1" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border BorderThickness="2"   BorderBrush="Tomato" SnapsToDevicePixels="True" >
+
+
+
+
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource HighlightColorBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource BlueColorBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Name="dbRefresh_Bu" Content="Refresh" Margin="5"  
+                                                        Command="{Binding some_BuCmd}" 
+                                                        CommandParameter="dbRefresh_Bu"
+                                                        IsEnabled="{Binding dbUpdateIdBuIsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                                         Height="25" 
+                                                                Style="{StaticResource WindowButtonStyle}" FontWeight="Bold" FontFamily="Segoe WP Black" FontSize="16">
+
+            </Button>
+        </StackPanel>
+
+
+        <Grid Grid.Row="2" Margin="0,0,0,0" Background="Transparent">
+            <Grid.Resources>
+                <sys:Int32 x:Key="IntAddTwo">2</sys:Int32>
+                <sys:Int32 x:Key="IntAddNull">0</sys:Int32>
+                <sys:Int32 x:Key="IntSubOne">-1</sys:Int32>
+                <sys:Int32 x:Key="IntSubTwo">-2</sys:Int32>
+
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"  />
+                <RowDefinition Height="80*" />
+
+            </Grid.RowDefinitions>
+            <ScrollViewer  Grid.Row="0" Visibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                               CanContentScroll="True"     Name="BaseScrollViewer"
+                               
+                               >
+
+
+
+                <Grid  Grid.Row="1" Margin="0,0,0,0" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"  />
+
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" x:Name="DetailView_StackPanel"  Orientation="Horizontal" 
+							Height="30">
+
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_id_adr, IsAsync=True, Mode=OneWay}" 
+								Margin="6,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}">
+
+                        </TextBox>
+
+
+
+
+                        <Border BorderThickness="1,1,1,1" SnapsToDevicePixels="True">
+                            <ComboBox Height="25" 
+                              ItemsSource="{Binding Mode=OneWay, Source={StaticResource keyePrimaryUseSearch}}" 
+                              Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_primary_use, IsAsync=True, Mode=OneWay}" 
+                              	 Style="{StaticResource keyComboRoyalBlue}" SnapsToDevicePixels="true"
+                              Margin="0,0,0,0" FontSize="13" 
+                              SelectedItem="{Binding input_primary_use, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource keyConvertePrimaryUseSearchToString}}" 
+                                                        ItemContainerStyle="{StaticResource keyComboItemRoyalBlue}">
+
+
+                            </ComboBox>
+                        </Border>
+
+
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntSubOne}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_gender, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}">
+
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_titel, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}">
+
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_surname, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                                Text="{Binding input_surname, UpdateSourceTrigger=PropertyChanged}"  >
+
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_firstname, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                                Text="{Binding input_firstname, UpdateSourceTrigger=PropertyChanged}"  >
+
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_email_1, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                        Text="{Binding input_email_1, UpdateSourceTrigger=PropertyChanged}" >
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_email_2, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                        Text="{Binding input_email_2, UpdateSourceTrigger=PropertyChanged}" >
+
+                        </TextBox>
+
+
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_group_name, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                        Text="{Binding input_group_name, UpdateSourceTrigger=PropertyChanged}" >
+
+                        </TextBox>
+
+                        <TextBox Height="30" Width="{Binding ActualWidth, BindsDirectlyToSource=True, ConverterParameter={StaticResource IntAddNull}, 
+                        Converter={StaticResource keyContentCalcluator}, ElementName=col_group_email, IsAsync=True, Mode=OneWay}" 
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                        Text="{Binding input_group_email, UpdateSourceTrigger=PropertyChanged}" >
+
+                        </TextBox>
+                        <TextBox Height="30" Width="18"  IsEnabled="False"   IsReadOnly="True" Background="LightGray"
+								Margin="0,0,0,0" FontSize="13" Style="{StaticResource strechTextBox}"
+                         >
+
+                        </TextBox>
+
+
+
+                    </StackPanel>
+
+                </Grid>
+
+            </ScrollViewer>
+
+
+            <DataGrid   Grid.Row="1" 
+                           Name="adrDgv" ItemsSource="{Binding addressesCollView, UpdateSourceTrigger=PropertyChanged}"                          
+                           IsEnabled="{Binding isDgGridEnabled, UpdateSourceTrigger=PropertyChanged}"  
+                                  Background="Transparent" Margin="0,0,0,0" IsSynchronizedWithCurrentItem="True"           
+                                  SelectionMode="Extended" 
+                                  SelectionUnit="FullRow"
+                                  CanUserDeleteRows="False" CanUserSortColumns="False" CanUserAddRows="False" 
+                                  AutoGenerateColumns="False"
+                                  FontSize="14" FontFamily="Lucida Console" 
+                                  ClipboardCopyMode="IncludeHeader" MaxColumnWidth="800" 
+                                  AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"    
+                                  EnableColumnVirtualization = "True"
+                                  EnableRowVirtualization = "True"  
+                                  VirtualizingStackPanel.VirtualizationMode="Standard"
+                                  VirtualizingStackPanel.IsVirtualizing="True"
+                                  RowHeight="30" SelectionChanged="adrDgv_SelectionChanged"  
+                                  SelectedItem="{Binding selectedItemAddressesObsoM , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 FrozenColumnCount ="2" 
+                                 ScrollViewer.ScrollChanged = "dtGrid_ScrollChanged"
+                    VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" >
+                <!--MouseDoubleClick="adrDgv_MouseDoubleClick"-->
+                <!--SelectedCellsChanged="adrDgv_SelectedCellsChanged"-->
+
+                <!--SelectedIndex="{Binding dgridSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                <!--SelectedItem="{Binding selectedItemCustUserTableGtM , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                <!--Unfocused_Selected  -->
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#FFD41FD4" />
+                                <Setter Property="BorderBrush" Value="#FFA20AA2" />
+                                <!--<Setter Property="Background" Value="#660066" />
+                                    <Setter Property="BorderBrush" Value="#660066" />-->
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.GroupStyle>
+                    <!-- Style for groups at top level. -->
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,5">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                        <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                    <!-- Style for groups under the top level. -->
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <DockPanel Background="LightBlue">
+                                    <TextBlock Text="{Binding Path=Name, Converter={StaticResource completeConverter}}" Foreground="Blue" Margin="30,0,0,0" Width="100"/>
+                                    <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+
+
+
+
+
+                <DataGrid.Resources>
+
+                    <!--<Style TargetType="{x:Type DataGridColumnHeader}" x:Key="keyStyle1" >
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>-->
+
+
+
+                    <DataGridTemplateColumn x:Key="colSelect">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="chkBxSelect" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                  IsChecked="{Binding Path=Select, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 >
+                                    <!--Click="chkBxSelect_Click"-->
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="chkBxSelectAll" 
+                    Content="Select" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    IsThreeState="True" 
+                      
+                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.SelectAll}">
+                                    <!--Click="chkBxSelectAll_Click"-->
+
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+
+                        <DataGridTemplateColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Foreground" Value="White"></Setter>
+                                        <Setter Property="Background" Value="DarkGray"></Setter>
+                                        <Setter Property="BorderBrush" Value="Red"></Setter>
+                                        <Setter Property="BorderThickness" Value="1"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTemplateColumn.CellStyle>
+                    </DataGridTemplateColumn>
+
+
+                    <Style x:Key="soDataGrid_ColumnHeaderRotateStyle" TargetType="DataGridColumnHeader" >
+                        <Setter Property="ContentTemplate" >
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"
+                           FontWeight="Bold" Width="90" MaxHeight="100"  Height="20"
+                           VerticalAlignment="Center" TextAlignment="Center"
+                           HorizontalAlignment="Center">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="320" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+
+                    <DataGridTemplateColumn 
+                                 x:Key="bildTemplate" MaxWidth="250" Header="Mein Bild">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Path=BildPfad}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTextColumn Header="gender" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding gender}" IsReadOnly="False" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>-->
+
+
+
+
+                </DataGrid.Resources>
+
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick" Handler="adrDgv_MouseDoubleClick"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
+
+
+                <DataGrid.Columns>
+
+                    <!--FontSize="10"-->
+                    <DataGridTextColumn Header="id_adr"  x:Name="col_id_adr" Visibility="Visible" Width="90"  Binding="{Binding id_adr}" IsReadOnly="True" />
+
+
+                    <!--<DataGridTemplateColumn Header="active" MinWidth="30" x:Name="col_is_active" HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"  IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding is_active,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckBoxStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+                    <DataGridTextColumn Header="primary_use"  x:Name="col_primary_use" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding primary_use, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay, Converter={StaticResource keyConvertePrimaryUseToString}}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+                    <!--<DataGridTemplateColumn   Header="primary_use" MinWidth="30" x:Name="col_primary_use" HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"   
+                                            IsReadOnly="True" >
+                    <DataGridTemplateColumn.CellTemplate>
+
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource keyePrimaryUse}}" 
+                                                  Style="{StaticResource keyComboRoyalBlue}" SnapsToDevicePixels="true"
+                                                        SelectedItem="{Binding primary_use, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource keyConvertePrimaryUseToString}}" 
+                                                        ItemContainerStyle="{StaticResource keyComboItemRoyalBlue}">
+
+                            </ComboBox>
+
+
+                        </DataTemplate>
+
+
+
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+
+
+                    <DataGridTemplateColumn Header="Gender"  x:Name="col_gender" Visibility="Visible" Width="90"     IsReadOnly="True"
+                                                 HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}">
+
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="genderDgCol_Bu" Tag="{Binding gender, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}"     >
+                                    <Button.Style>
+                                        <Style x:Name="ButtonImage">
+                                            <!--<Setter Property="Button.Visibility" Value="Visible"/>-->
+                                            <Setter Property="Button.Content">
+                                                <Setter.Value>
+
+
+                                                    <Image  Height="25" Width="25" Margin="10,0,0,0"   
+                                                            Source="{Binding gender, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay, 
+                                                                            Converter={StaticResource picConverter2}}">
+
+                                                    </Image>
+
+                                                </Setter.Value>
+
+                                            </Setter>
+
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+
+                    <DataGridTextColumn Header="Titel"  x:Name="col_titel" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding titel, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <DataGridTextColumn Header="surname" x:Name="col_surname" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding surname, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <DataGridTextColumn Header="firstname" x:Name="col_firstname" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding firstname,
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <DataGridTextColumn Header="email_1" x:Name="col_email_1" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding email_1, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <DataGridTextColumn Header="email_2"  x:Name="col_email_2"  Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding email_2, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <!--<DataGridTextColumn Header="sg_number"  x:Name="col_sg_number" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding sg_number, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>-->
+
+                    <DataGridTextColumn Header="group_name" x:Name="col_group_name" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding group_name, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True"  
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <DataGridTextColumn Header="group_email" x:Name="col_group_email" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding group_email, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                    <!--<DataGridTextColumn Header="pcname_1" x:Name="col_pcname_1" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding pcname_1, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>
+
+                <DataGridTextColumn Header="pcname_2" x:Name="col_pcname_2" Visibility="Visible" Width="Auto" MinWidth="150" Binding="{Binding pcname_2, 
+                            UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" IsReadOnly="True" 
+                                            HeaderStyle="{StaticResource soDataGrid_ColumnHeaderRotateStyle}"/>-->
+
+
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+
+
+        </Grid>
+
+
+
+    </Grid>
+
+
+
+
+</Window>
