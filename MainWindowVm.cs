@@ -1,262 +1,140 @@
-﻿using AppLib.AppCoreConfigs;
-using AppLib.AppDbOrgs;
-using AppLib.Business.AppEnvironments.Models;
-using AppLib.Commands;
-using AppLib.Constants;
-using AppLib.Models;
-using AppLib.Services;
-using ClibBase.Constants;
-using ClibBase.DataBases.DbMySqlAbcs;
-using ClibBase.ExceptionWorks;
-using ClibBase.ExceptionWorks.Constants;
-using ClibBase.ExceptionWorks.Models;
-using ClibBase.Ios.IoFileExaminers;
-using ClibBase.Services;
-using SmsProjectBasic.Constants;
-using SmsProjectBasic.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Threading;
+using WpfAzubi.Business;
+using WpfAzubi.Commands;
+using WpfAzubi.Models;
+using WpfAzubi.Views;
+ 
 
-
-// MainWindowVm
-
-namespace SmsFinalizer.ViewModels
+namespace WpfAzubi.ViewModels
 {
     public partial class MainWindowVm
     {
-
+                      private object _koennenObserSync = new object();
+        private object _mainObserSync = new object();
+                
         public MainWindowVm()
         {
+            mainObser.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(mainObserOnCollectionChanged);
+            BindingOperations.EnableCollectionSynchronization(mainObser, _mainObserSync);
+            BindingOperations.EnableCollectionSynchronization(koennenObser, _koennenObserSync);
+            mainObserView = CollectionViewSource.GetDefaultView(mainObser);
+            koennenObserView = CollectionViewSource.GetDefaultView(koennenObser);
+             
 
+            firstCommand_BuCmd = new RelayCommand((param) =>
+            { var xx = firstCommandMeth(param); });
 
+            secCommand_BuCmd = new RelayCommand((param) =>
+            { var xx = secCommandMeth(param); });
 
+            firstCommandAdd_BuCmd = new RelayCommand((param) =>
+            { var xx = firstCommandAddMeth(param); });
+            var tempk = new List<Koennen>();
+            tempk.Add(new Koennen() { name = "ABC" + 0.ToString() , IsSelected=true});
+            tempk.Add(new Koennen() { name = "ABC" + 3.ToString(), IsSelected = true });
 
-            LogProUcInitial();
+            mainObser.Add(new PersonDetail() { name = "ffffffff", koennenObser = tempk });
 
-
-
-            initializeCommands();
-
-
-        }
-
-
-        private object _collectionOfMainTableSync = new object();
-        private object _dbConnectionNamesComboSync = new object();
-
-
-        public void initializeCommands()
-        {
-            this.PropertyChanged += new PropertyChangedEventHandler(mainViewModel_PropertyChanged);
-            //mainDepart.mainTableObso.Clear();
-            if (AppShared.inDesignMode)
+            for (int hCnt = 0; hCnt < 10;hCnt++ )
             {
-                for (int hCnt = 0; hCnt < 200; hCnt++)
-                {
-                    //mainDepart.logEntries.addEntry("Command startCommand startCommand startCommand startCommand startCommand start:");
-                    mainDepart.mainTableObso.Add(new SmsFinalizerSession()
-                    {
-                        project_name = "Test" + Convert.ToString(hCnt),
-                        sms_process_step = eSmsProcessSteps.none,
-                        description = "OlaOla"
 
-                    });
-
-                }
+                koennenObser.Add(new Koennen() { name = "ABC" + hCnt.ToString() });
             }
 
+        }
+
+      
+
+
+
+
+        private void mainObserOnCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+         
 
 
 
 
 
-
-
-            mainTableObsoView = CollectionViewSource.GetDefaultView(mainDepart.mainTableObso);
-            BindingOperations.EnableCollectionSynchronization(mainDepart.mainTableObso, _collectionOfMainTableSync);
-
-            BindingOperations.EnableCollectionSynchronization(dbConnectionNamesCombo, _dbConnectionNamesComboSync);
-
-
-            //smsFinalizerSessionView = CollectionViewSource.GetDefaultView(mainDepart.smsFinalizerSession);
-            //BindingOperations.EnableCollectionSynchronization(mainDepart.smsFinalizerSession, _collectionOfSmsFinalizerSessionSync);
-
-            mainDepart.g000XMoooodInfo.GroupsforAlienList.Add(eContentIdentGroupNamesDb.adabas);
-            mainDepart.g000XMoooodInfo.GroupsforAlienList.Add(eContentIdentGroupNamesDb.kultus);
-            mainDepart.g000XMoooodInfo.GroupsforAlienList.Add(eContentIdentGroupNamesDb.sysgr);
-            mainDepart.g000XMoooodInfo.GroupsforAlienList.Add(eContentIdentGroupNamesDb.nouse);
-
-
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("F");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("FB");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("V");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("VB");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("FBA");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("VBA");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("FBM");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("VBM");
-            mainDepart.g000XMoooodInfo.MY_recfm_OK_List.Add("U");
-
-
-            mainDepart.g000XMoooodInfo.MY_DSORG_OK_List.Add("");
-            mainDepart.g000XMoooodInfo.MY_DSORG_OK_List.Add("DATA");
-
-            initializeSpecialText();
-
-
-
-            //var now = DateTimeOffset.Now;
-            mainDepart.myCancellationTokenSource = new MyCancellationTokenSource();
-
-            mainCancelCommand_BuCmd = new RelayCommand((param) =>
-            { var xx = meth_mainCancelCommand_BuCmd(param); });
-
-            openExplorerDirectorySmsListFolder_BuCmd = new RelayCommand((param) =>
-            { var xx = meth_openExplorerDirectorySmsListFolder_BuCmd(param); });
-
-
-
-            mainProcessCommand_BuCmd = new RelayCommand((param) =>
-            { var xx = meth_mainProcessCommand_BuCmd(param); });
-
-            projectTableRefreshCommand_BuCmd = new RelayCommand((param) =>
-            { var xx = meth_projectTableRefreshCommand_BuCmd(param); });
 
 
 
 
         }
 
-        private void mainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async Task<Int32> firstCommandAddMeth(object param)
         {
 
 
 
-            if (e.PropertyName == this.GetPropertyName(() => isMainInAsync))
-            {
-                if (storyboard1 == null)
-                {
-                    return;
-                }
+            FirstCommandAdd firstCommandAdd = new FirstCommandAdd();
 
-                if (isMainInAsync)
-                {
-                    baseWindowGridDisEnabled = false;
-                    storyboard1.Begin();
-
-                }
-                else
-                {
-                    storyboard1.Stop();
-                    baseWindowGridDisEnabled = true;
-                }
-
-            }
-            else if (e.PropertyName == this.GetPropertyName(() => isActiveChangeConnection))
-            {
-
-                if (isActiveChangeConnection)
-                {
-                    mainDepart.isEnabled_dbConnectionNamesCombo = false;
-
-                }
-                else
-                {
-                    mainDepart.isEnabled_dbConnectionNamesCombo = true;
-
-                }
-
-            }
-            else if (e.PropertyName == GetPropertyName(() => this.mainWindowLoaded))
-            {
-
-                if (mainWindowLoaded)
-                {
-                    var jj = initializieMe();
-                }
-
-            }
-            else if (e.PropertyName == GetPropertyName(() => this.dbConnectionNamesComboValue))
-            {
-                isMainInAsync = true;
-                var t = Task.Factory.StartNew(async () =>
-                {
-                    await doDbConnectionChange().ConfigureAwait(true);
-                });
-
-                t.Wait();
+            var serviceProcess = firstCommandAdd.methStart(this);
 
 
 
-            }
-            else if (e.PropertyName == this.GetPropertyName(() => onClosedMainWindow))
-            {
-
-                if (onClosedMainWindow)
-                {
-                    Abc abcFake = new Abc();
-                    DbConnectionChangeHelp dbConnectionChangeHelp = new DbConnectionChangeHelp();
-                    appManager.dbConnectionChange(mainDepart, abcFake, dbConnectionChangeHelp, false, false, false);
 
 
-                    if (mainDepart.myCancellationTokenSource == null)
-                    {
-                        return;
-                    }
-                    else if (mainDepart.myCancellationTokenSource.MyIsDisposed)
-                    {
-                        return;
-                    }
-                    mainDepart.myCancellationTokenSource.Cancel(false);
-
-                }
-               
-
-
-
-            }
-            else if (e.PropertyName == this.GetPropertyName(() => createNewDropFilePath))
-            {
-                filePath_sms_source = new IoFileExamine(createNewDropFilePath);
-            }
-            else if (e.PropertyName == this.GetPropertyName(() => doClose))
-            {
-                if (doClose)
-                {
-                    if (mainDepart.myCancellationTokenSource != null)
-                    {
-                        if (!mainDepart.myCancellationTokenSource.MyIsDisposed)
-                        {
-                            mainDepart.myCancellationTokenSource.Cancel(false);
-                        }
-                    }
-                    onClosedMainWindow = true;
-                }
-
-            }
-
-
-
+            return 0;
         }
 
-        private void initializeSpecialText()
+
+        private async Task<Int32> firstCommandMeth(object param)
         {
 
-            mainDepart.specialTextUserOnly_Bu_DisEnabled = false;
-            mainDepart.specialTextUserOnlyTest_Bu_DisEnabled = true;
+            openCodePageCheckExtern();
+            return 0;
+        }
+
+      
+        public bool isOpenCodePageCheckExtern = false;
+        private void openCodePageCheckExtern()
+        {
+            if (isOpenCodePageCheckExtern)
+            {
+                return;
+            }
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+
+                //Window1 window1 = new Window1(this);
+                window1 = new Window1(this);
+                //codePageCheckExternWd.Closing += CodePageCheckExternWd_Closing;
+                window1.Closed += new EventHandler(window1_Closed);
+                window1.Show();
+                isOpenCodePageCheckExtern = true;
+
+
+
+            }), DispatcherPriority.ContextIdle, null);
+        }
+
+        private void window1_Closed(object sender, EventArgs e)
+        {
+            Window w = ((Window)(sender));
+            w.Closed -= new EventHandler(window1_Closed);
+            if (w is IDisposable)
+            {
+                (w as IDisposable).Dispose();
+            }
+            isOpenCodePageCheckExtern = false;
 
         }
 
+        private async Task<Int32> secCommandMeth(object param)
+        {
+            
+
+            return 0;
+        }
 
 
 

@@ -1,317 +1,93 @@
-﻿using AppLib.Business.AppManagements;
-using AppLib.Constants;
-using AppLib.Models;
-using ClibBase.DataBases.DbMySqlAbcs;
-using ClibBase.Ios.IoFileExaminers;
-using ClibBase.Systems.Generics.Comparers;
-using ClibBase.Utils.Enums;
-using SmsProjectBasic.Constants;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using WpfAzubi.Models;
+using WpfAzubi.Views;
 
 
-// MainWindowVm.Base
-
-
-namespace SmsFinalizer.ViewModels
+namespace WpfAzubi.ViewModels
 {
     public partial class MainWindowVm : INotifyPropertyChanged
     {
-
-
-        // ======================================================================================
-
-
-
-        public double Width
+        public ObservableCollection<Koennen> koennenObser
         {
-            get { return _Width; }
+            get { return _koennenObser; }
             set
             {
-                _Width = value;
-                RaisePropertyChanged(() => this.Width);
+                _koennenObser = value;
+                RaisePropertyChanged(() => this.koennenObser);
             }
         }
-        private double _Width = Double.NaN;
+        private ObservableCollection<Koennen> _koennenObser = new ObservableCollection<Koennen>();
 
-           public bool doClose
+        public MainObser mainObser
         {
-            get { return _doClose; }
+            get { return _mainObser; }
             set
             {
-                _doClose = value;
-                RaisePropertyChanged(() => this.doClose);
+                _mainObser = value;
+                RaisePropertyChanged(() => this.mainObser);
             }
         }
-        private bool _doClose = false;
-
-          
+        private MainObser _mainObser = new MainObser();
 
 
-        public AppManager appManager = new AppManager();
-
-
-        public MainDepart mainDepart
+        public PersonDetail mainObserLine
         {
-            get { return _mainDepart; }
+            get { return _mainObserLine; }
             set
             {
-                _mainDepart = value;
-                RaisePropertyChanged(() => this.mainDepart);
+                _mainObserLine = value;
+                RaisePropertyChanged(() => this.mainObserLine);
             }
         }
-        private MainDepart _mainDepart = new MainDepart();
+        private PersonDetail _mainObserLine = new PersonDetail();
 
-
-        public bool onClosedMainWindow
+        public PersonDetail window1PersonDetail
         {
-            get { return _onClosedMainWindow; }
+            get { return _window1PersonDetail; }
             set
             {
-                _onClosedMainWindow = value;
-                RaisePropertyChanged(() => this.onClosedMainWindow);
+                _window1PersonDetail = value;
+                RaisePropertyChanged(() => this.window1PersonDetail);
             }
         }
-        private bool _onClosedMainWindow = false;
+        private PersonDetail _window1PersonDetail = new PersonDetail();
 
-
-        // ======================================================================================
-
-
-
-        public ICollectionView mainTableObsoView
+        public ICollectionView mainObserView
         {
-            get { return _mainTableObsoView; }
+            get { return _mainObserView; }
             set
             {
-                _mainTableObsoView = value;
-                RaisePropertyChanged(() => this.mainTableObsoView);
+                _mainObserView = value;
+                RaisePropertyChanged(() => this.mainObserView);
             }
         }
-        private ICollectionView _mainTableObsoView;
+        private ICollectionView _mainObserView;
 
-
-
-
-
-        [DefaultValue(eSmsWorkFolders.none)]
-        public eSmsWorkFolders projectWorkFolderComboValue
+        public ICollectionView koennenObserView
         {
-            get { return _projectWorkFolderComboValue; }
+            get { return _koennenObserView; }
             set
             {
-                _projectWorkFolderComboValue = value;
-                RaisePropertyChanged(() => this.projectWorkFolderComboValue);
+                _koennenObserView = value;
+                RaisePropertyChanged(() => this.koennenObserView);
             }
         }
-        private eSmsWorkFolders _projectWorkFolderComboValue;
+        private ICollectionView _koennenObserView;
 
-
-
-        [DefaultValue(eSmsWorkFolders.XXX_Ainc)]
-        public eSmsWorkFolders projectPatternWorkFolderComboValue
+           
+        public Window1 window1
         {
-            get { return _projectPatternWorkFolderComboValue; }
+            get { return _window1; }
             set
             {
-                _projectPatternWorkFolderComboValue = value;
-                RaisePropertyChanged(() => this.projectPatternWorkFolderComboValue);
+                _window1 = value;
+                RaisePropertyChanged(() => this.window1);
             }
         }
-        private eSmsWorkFolders _projectPatternWorkFolderComboValue = eSmsWorkFolders.XXX_Ainc;
-
-
-
-
-
-
-        // ======================================================================================
-
-        [DefaultValue(eSmsWorkFolders.XXX_Ainc)]
-        public eSmsWorkFolders createNewProjectWorkFolder
-        {
-            get { return _createNewProjectWorkFolder; }
-            set
-            {
-                _createNewProjectWorkFolder = value;
-                RaisePropertyChanged(() => this.createNewProjectWorkFolder);
-            }
-        }
-        private eSmsWorkFolders _createNewProjectWorkFolder = eSmsWorkFolders.XXX_Ainc;
-
-
-
-
-
-
-
-        // ======================================================================================
-
-
-        /// <summary>
-        /// Input file which contains HSM SMS Dataset Names       
-        /// </summary>
-        public IoFileExamine filePath_sms_source
-        {
-            get { return _filePath_sms_source; }
-            set
-            {
-                _filePath_sms_source = value;
-                RaisePropertyChanged(() => this.filePath_sms_source);
-            }
-        }
-        private IoFileExamine _filePath_sms_source = null;
-
-        // ======================================================================================
-        // createNew
-
-
-        //public IoFileExamine createNewFilePath
-        //{
-        //    get { return _createNewFilePath; }
-        //    set
-        //    {
-        //        _createNewFilePath = value;
-        //        RaisePropertyChanged(() => this.createNewFilePath);
-        //    }
-        //}
-        //private IoFileExamine _createNewFilePath = null;
-
-
-
-
-        /// <summary>
-        /// Store dropped filePath       
-        /// </summary>
-        public string createNewDropFilePath
-        {
-            get { return _createNewDropFilePath; }
-            set
-            {
-                _createNewDropFilePath = value;
-                RaisePropertyChanged(() => this.createNewDropFilePath);
-            }
-        }
-        private string _createNewDropFilePath = string.Empty;
-
-        // ======================================================================================
-
-
-
-        public int mainTabcontrolSelectedIndex
-        {
-            get { return _mainTabcontrolSelectedIndex; }
-            set
-            {
-                _mainTabcontrolSelectedIndex = value;
-                RaisePropertyChanged(() => this.mainTabcontrolSelectedIndex);
-            }
-        }
-        private int _mainTabcontrolSelectedIndex = 0;
-
-
-        public int takeAcionTabcontrolSelectedIndex
-        {
-            get { return _takeAcionTabcontrolSelectedIndex; }
-            set
-            {
-                _takeAcionTabcontrolSelectedIndex = value;
-                RaisePropertyChanged(() => this.takeAcionTabcontrolSelectedIndex);
-            }
-        }
-        private int _takeAcionTabcontrolSelectedIndex = 0;
-
-
-
-
-
-        public double ValueRepeatButtonWidth
-        {
-            get { return _ValueRepeatButtonWidth; }
-            set
-            {
-                _ValueRepeatButtonWidth = value;
-                RaisePropertyChanged(() => this.ValueRepeatButtonWidth);
-            }
-        }
-        private double _ValueRepeatButtonWidth = 30;
-
-
-
-
-        public string mainSelectionUcTabItemHeader
-        {
-            get { return _mainSelectionUcTabItemHeader; }
-            set
-            {
-                _mainSelectionUcTabItemHeader = value;
-                RaisePropertyChanged(() => this.mainSelectionUcTabItemHeader);
-            }
-        }
-        private string _mainSelectionUcTabItemHeader = EnumUtilzStatic.GetDescription(eControlNamesExplicit.mainSelectionUc_TabItem).Split('|')[1];
-
-
-
-        public string workflowUcTabItemHeader
-        {
-            get { return _workflowUcTabItemHeader; }
-            set
-            {
-                _workflowUcTabItemHeader = value;
-                RaisePropertyChanged(() => this.workflowUcTabItemHeader);
-            }
-        }
-        private string _workflowUcTabItemHeader = EnumUtilzStatic.GetDescription(eControlNamesExplicit.workflowUc_TabItem).Split('|')[1];
-
-
-
-        public string finalizeUcTabItemHeader
-        {
-            get { return _finalizeUcTabItemHeader; }
-            set
-            {
-                _finalizeUcTabItemHeader = value;
-                RaisePropertyChanged(() => this.finalizeUcTabItemHeader);
-            }
-        }
-        private string _finalizeUcTabItemHeader = EnumUtilzStatic.GetDescription(eControlNamesExplicit.finalizeUc_TabItem).Split('|')[1];
-
-
-
-        public string emailContentUcTabItemHeader
-        {
-            get { return _emailContentUcTabItemHeader; }
-            set
-            {
-                _emailContentUcTabItemHeader = value;
-                RaisePropertyChanged(() => this.emailContentUcTabItemHeader);
-            }
-        }
-        private string _emailContentUcTabItemHeader = EnumUtilzStatic.GetDescription(eControlNamesExplicit.emailContentUc_TabItem).Split('|')[1];
-
-        // ======================================================================================
-
-        public bool baseWindowGridDisEnabled
-        {
-            get { return _baseWindowGridDisEnabled; }
-            set
-            {
-                _baseWindowGridDisEnabled = value;
-                RaisePropertyChanged(() => this.baseWindowGridDisEnabled);
-            }
-        }
-        private bool _baseWindowGridDisEnabled = false;
-
-
-
-
-
-        // ======================================================================================
+        private Window1 _window1;// = new Window1();
 
         // Fine
         //////////////////////////////////////////////////////////////////////
@@ -351,17 +127,7 @@ namespace SmsFinalizer.ViewModels
 
 
 
-        // ======================================================================================
 
 
-
-
-
-
-
-        internal void Window_Closing(object sender, EventArgs e)
-        {
-            doClose = true;
-        }
     }
 }
