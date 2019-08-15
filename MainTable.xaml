@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="WpfAzubi.Views.MainTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Width="200" Height="200">
+
+        <DataGrid   ItemsSource="{Binding mainObserView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            CanUserAddRows="False"  CanUserResizeColumns="True" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                                            HorizontalAlignment="Left"
+                                            ClipboardCopyMode="IncludeHeader" MaxColumnWidth="800"
+                                            FontSize="14" FontFamily="Lucida Console" 
+                                            Name="MainDataDatagrid" VerticalAlignment="Top" RowHeight="30" ColumnWidth="Auto" 
+                                            ColumnHeaderHeight="30" HeadersVisibility="Column" 
+                                            Background="Transparent" RowBackground="Transparent" 
+                                            IsSynchronizedWithCurrentItem="True" 
+                                            SelectionMode="Single"
+                                            SelectionUnit="FullRow"
+                                            EnableColumnVirtualization="True"
+                                            EnableRowVirtualization="True"
+                                            AlternatingRowBackground="LightBlue"
+                                           BorderThickness="2" AutoGenerateColumns="False"
+                                               SelectedItem="{Binding mainObserLine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                         
+                                          
+                         
+                         FontWeight="Medium" TextOptions.TextFormattingMode="Display" 
+                        VirtualizingStackPanel.IsVirtualizing="False"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                   >
+
+            <DataGridTextColumn  Binding="{Binding id}" Header="Idx" Visibility="Visible" Width="80" IsReadOnly="true" />
+
+            <!--<DataGridTextColumn  Binding="{Binding name}" Header="Name" Visibility="Visible" Width="80" IsReadOnly="true" />
+
+            <DataGridTextColumn  Binding="{Binding vorName}" Header="Name" Visibility="Visible" Width="80" IsReadOnly="true" />-->
+
+
+
+
+
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>
+<!--  Style="{DynamicResource DataGridStyle1}"       KeyDown="Window_KeyDown"
+                         BorderBrush="{DynamicResource solidColorBrush_DataGridCellBorderBrush}" 
+            boundAppLibBehaviors:DataGrid_Behavior.SelectedItem_ScrollIntoView="{Binding Path=canScrollIntoView,                            
+                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"-->

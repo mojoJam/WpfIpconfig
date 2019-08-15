@@ -1,0 +1,65 @@
+﻿<Window x:Class="WpfAzubi.Views.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window1" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="150"/>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+
+            <Button Name="firstCommandAdd_Bu" Width="80"  Height="30"
+                    Command="{Binding firstCommandAdd_BuCmd}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}" >
+
+            </Button>
+            <StackPanel>
+
+                <TextBlock Text="Name"></TextBlock>
+                <TextBox   Text="{Binding window1PersonDetail.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            </StackPanel>
+
+            <ListView ItemsSource="{Binding koennenObserView}" SelectionMode="Multiple">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding name}" />
+                        <!--<GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
+                        <GridViewColumn Header="Mail" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Mail}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+                    </GridView>
+                </ListView.View>
+
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="Name: " />
+                            <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                            
+                            --><!--<TextBlock Text="Select: " />
+                            <TextBlock Text="{Binding Age}" FontWeight="Bold" />--><!--
+                            
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>-->
+
+            </ListView>
+        </StackPanel>
+
+
+      
+    </Grid>
+</Window>
